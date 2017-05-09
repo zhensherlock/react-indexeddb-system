@@ -3,7 +3,9 @@ import {
     Nav,
     NavItem,
     Modal,
-    Button
+    Button,
+    Glyphicon,
+    Label
 } from 'react-bootstrap';
 import CreateDatabase from './CreateDatabase';
 import DBHelper from '../modules/DBHelper'
@@ -83,8 +85,8 @@ export default class DatabaseInfoList extends React.Component {
                             return (
                                 <NavItem key={index.toString()}>
                                     {item}
-                                    <span className="pull-right glyphicon glyphicon-remove"
-                                          onClick={this.openDeleteModal.bind(this, item, index)}></span>
+                                    <Glyphicon glyph="remove" className="pull-right"
+                                               onClick={this.openDeleteModal.bind(this, item, index)} />
                                 </NavItem>
                             );
                         })
@@ -96,7 +98,8 @@ export default class DatabaseInfoList extends React.Component {
                     </Modal.Header>
 
                     <Modal.Body>
-                        Are you sure you want to delete this database: {this.state.currentDatabase.name}
+                        Are you sure you want to delete this database:
+                        <Label bsStyle="danger">{this.state.currentDatabase.name}</Label>
                     </Modal.Body>
 
                     <Modal.Footer>
