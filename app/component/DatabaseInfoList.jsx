@@ -8,9 +8,9 @@ import {
     Label
 } from 'react-bootstrap';
 import CreateDatabase from './CreateDatabase';
-import DBHelper from '../modules/DBHelper'
+import DBHelper from '../modules/DBHelper';
 
-export default class DatabaseInfoList extends React.Component {
+class DatabaseInfoList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -22,7 +22,7 @@ export default class DatabaseInfoList extends React.Component {
         this.closeDeleteModal = this.closeDeleteModal.bind(this);
         this.deleteDatabase = this.deleteDatabase.bind(this);
         DBHelper.getDatabaseNames(result => {
-            this.setState({ databaseList: result });
+            this.setState({databaseList: result});
         });
     }
 
@@ -57,7 +57,8 @@ export default class DatabaseInfoList extends React.Component {
         });
     }
 
-    openDeleteModal(databaseName, databaseIndex) {
+    openDeleteModal(event, databaseName, databaseIndex) {
+        event.stopPropagation();
         this.setState({
             showDeleteModal: true,
             currentDatabase: {
@@ -73,6 +74,15 @@ export default class DatabaseInfoList extends React.Component {
         });
     }
 
+    chooseDatabase(databaseName) {
+        if (databaseName != 'dashboard') {
+            this.props.history.push('/database/' + databaseName);
+        }
+        else {
+            this.props.history.push('/');
+        }
+    }
+
     render() {
         return (
             <div>
@@ -80,13 +90,16 @@ export default class DatabaseInfoList extends React.Component {
                     {
                         this.renderCreateDatabase()
                     }
+                    <NavItem onClick={this.chooseDatabase.bind(this, 'dashboard')}>
+                        Dashboard
+                    </NavItem>
                     {
                         this.state.databaseList.map((item, index) => {
                             return (
-                                <NavItem key={index.toString()}>
+                                <NavItem key={index.toString()} href="javascript:;" onClick={this.chooseDatabase.bind(this, item)}>
                                     {item}
                                     <Glyphicon glyph="remove" className="pull-right"
-                                               onClick={this.openDeleteModal.bind(this, item, index)} />
+                                       onClick={(event) => this.openDeleteModal(event, item, index)}/>
                                 </NavItem>
                             );
                         })
@@ -111,3 +124,5 @@ export default class DatabaseInfoList extends React.Component {
         );
     }
 }
+
+export default DatabaseInfoList

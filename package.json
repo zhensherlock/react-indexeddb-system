@@ -18,9 +18,12 @@
   "homepage": "https://github.com/zhensherlock/react-indexeddb-system#readme",
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "history": "^4.6.1",
     "react": "^15.5.4",
     "react-bootstrap": "^0.31.0",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "react-router": "^4.1.1",
+    "react-router-dom": "^4.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
