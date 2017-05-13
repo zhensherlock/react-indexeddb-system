@@ -51,7 +51,7 @@ export default class CreateDatabase extends React.Component {
     saveDatabase() {
         let self = this;
         if (self.state.validationState == 'success') {
-            DBHelper.createDatabase(this.state.databaseName, () => {
+            DBHelper.createDatabase(this.state.databaseName).then(() => {
                 if (this.props.onCreateSuccess) {
                     this.props.onCreateSuccess(this.state.databaseName);
                 }

@@ -10,7 +10,7 @@ export default class FormDatabaseInfo extends React.Component {
         };
         this.handleChange = this.handleChange.bind(this);
 
-        dbHelper.getDatabaseNames(result => {
+        dbHelper.getDatabaseNames().then(result => {
             this.setState({ databaseNames: result });
         });
     }

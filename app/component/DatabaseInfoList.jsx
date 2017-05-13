@@ -21,7 +21,7 @@ class DatabaseInfoList extends React.Component {
         this.onCreateSuccess = this.onCreateSuccess.bind(this);
         this.closeDeleteModal = this.closeDeleteModal.bind(this);
         this.deleteDatabase = this.deleteDatabase.bind(this);
-        DBHelper.getDatabaseNames(result => {
+        DBHelper.getDatabaseNames().then(result => {
             this.setState({databaseList: result});
         });
     }
@@ -46,7 +46,7 @@ class DatabaseInfoList extends React.Component {
 
     deleteDatabase() {
         let self = this;
-        DBHelper.deleteDatabase(this.state.currentDatabase.name, () => {
+        DBHelper.deleteDatabase(this.state.currentDatabase.name).then(() => {
             self.setState((prevState) => {
                 prevState.databaseList.splice(this.state.currentDatabase.index, 1);
                 return {
