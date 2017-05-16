@@ -5,7 +5,8 @@ import {
     Button,
     FormGroup,
     ControlLabel,
-    FormControl
+    FormControl,
+    Checkbox
 } from 'react-bootstrap';
 import DBHelper from '../modules/DBHelper'
 
@@ -16,12 +17,14 @@ export default class CreateTable extends React.Component {
             showCreateModal: false,
             tableName: '',
             validationState: null,
-            tableNames: []
+            tableNames: [],
+            autoIncrement: true
         };
         this.openCreateModal = this.openCreateModal.bind(this);
         this.closeCreateModal = this.closeCreateModal.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.saveTable = this.saveTable.bind(this);
+        this.changeAutoIncrement = this.changeAutoIncrement.bind(this);
     }
 
     openCreateModal() {
@@ -52,13 +55,22 @@ export default class CreateTable extends React.Component {
         let self = this;
         if (self.state.validationState == 'success') {
             let dbHelper = new DBHelper(this.props.databaseName);
-            dbHelper.createTable(this.state.tableName).then((tableName) => {
+            dbHelper.createTable(this.state.tableName, {
+                autoIncrement: self.state.autoIncrement
+            }).then((tableName) => {
                 if (this.props.onCreateSuccess) {
                     this.props.onCreateSuccess(tableName);
                 }
                 self.closeCreateModal();
             });
         }
+    }
+
+    changeAutoIncrement() {
+        let self = this;
+        self.setState({
+            autoIncrement: !self.state.autoIncrement
+        });
     }
 
     render() {
@@ -79,6 +91,11 @@ export default class CreateTable extends React.Component {
                                 placeholder="Enter Table Name"
                                 onChange={this.handleChange} />
                             <FormControl.Feedback />
+                        </FormGroup>
+                        <FormGroup>
+                            <Checkbox checked={this.state.autoIncrement} onChange={this.changeAutoIncrement}>
+                                autoIncrement
+                            </Checkbox>
                         </FormGroup>
                     </Modal.Body>
 

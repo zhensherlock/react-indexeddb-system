@@ -23,14 +23,14 @@ class DBHelper {
         });
     }
 
-    createTable(tableName) {
+    createTable(tableName, params) {
         let self = this
         ;
         return new Promise((resolve, reject) => {
             let request = indexedDB.open(self.databaseName, +(new Date()));
             request.onupgradeneeded = (event) => {
                 let dbObject = event.target.result;
-                dbObject.createObjectStore(tableName);
+                dbObject.createObjectStore(tableName, params);
                 resolve(tableName);
             };
         });
