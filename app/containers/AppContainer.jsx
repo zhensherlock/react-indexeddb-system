@@ -25,7 +25,7 @@ export default class AppContainer extends React.Component {
                         <Col sm={9} md={9} smOffset={3} mdOffset={2} className="main">
                             <div>
                                 <Route exact path="/" component={AppDashboard}/>
-                                <Route path="/database/:name" component={AppDatabaseDetail}/>
+                                <Route path="/database/:databaseName" component={AppDatabaseDetail}/>
                             </div>
                         </Col>
                     </Row>

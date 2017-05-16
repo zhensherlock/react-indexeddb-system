@@ -5,6 +5,8 @@ import {
 } from 'react-bootstrap';
 import DBHelper from '../modules/DBHelper';
 import TableInfoList from "../component/TableInfoList";
+import { Route } from 'react-router-dom'
+import AppTableDetail from './AppTableDetail';
 
 export default class AppDatabaseDetail extends React.Component {
     constructor(props) {
@@ -13,7 +15,7 @@ export default class AppDatabaseDetail extends React.Component {
             tableNames: []
         };
 
-        let dbObject = new DBHelper(props.match.params.name)
+        let dbObject = new DBHelper(props.match.params.databaseName)
             , self = this
         ;
 
@@ -27,11 +29,12 @@ export default class AppDatabaseDetail extends React.Component {
     render() {
         return (
             <div>
-                <PageHeader>{this.props.match.params.name}</PageHeader>
+                <PageHeader>{this.props.match.params.databaseName}</PageHeader>
                 <Row className="placeholders">
-                    <TableInfoList create databaseName={this.props.match.params.name}>
+                    <TableInfoList create databaseName={this.props.match.params.databaseName}>
                     </TableInfoList>
                 </Row>
+                <Route path="/database/:databaseName/:tableName" component={AppTableDetail}/>
             </div>
         );
     }
