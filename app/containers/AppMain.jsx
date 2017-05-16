@@ -6,7 +6,7 @@ export default class AppMain extends React.Component {
     render() {
         return (
             <div>
-                <AppNavbar brandName="Manager"></AppNavbar>
+                <AppNavbar brandName="Indexed Manager"></AppNavbar>
                 <AppContainer></AppContainer>
             </div>
         );
