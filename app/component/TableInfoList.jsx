@@ -15,8 +15,20 @@ class TableInfoList extends React.Component {
             currentTable: {}
         };
         this.onCreateSuccess = this.onCreateSuccess.bind(this);
+    }
 
-        let dbObject = new DBHelper(this.props.databaseName)
+    componentWillMount() {
+        this.load(this.props);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.databaseName != this.props.databaseName) {
+            this.load(nextProps);
+        }
+    }
+
+    load(props) {
+        let dbObject = new DBHelper(props.databaseName)
             , self = this
         ;
         dbObject.getTableNames().then(tableNames => {
