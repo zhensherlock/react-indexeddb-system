@@ -45,6 +45,10 @@ class TableInfoList extends React.Component {
         )
     }
 
+    chooseTable(tableName) {
+        this.props.history.push('/database/' + this.props.databaseName + '/' + tableName);
+    }
+
     render() {
         return (
             <div>
@@ -55,7 +59,7 @@ class TableInfoList extends React.Component {
                     {
                         this.state.tableList.map((name ,index) => {
                             return (
-                                <NavItem key={index.toString()}>
+                                <NavItem key={index.toString()} onClick={this.chooseTable.bind(this, name)}>
                                     {name}
                                 </NavItem>
                             );

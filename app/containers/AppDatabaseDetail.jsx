@@ -31,7 +31,7 @@ export default class AppDatabaseDetail extends React.Component {
             <div>
                 <PageHeader>{this.props.match.params.databaseName}</PageHeader>
                 <Row className="placeholders">
-                    <TableInfoList create databaseName={this.props.match.params.databaseName}>
+                    <TableInfoList create databaseName={this.props.match.params.databaseName} history={this.props.history}>
                     </TableInfoList>
                 </Row>
                 <Route path="/database/:databaseName/:tableName" component={AppTableDetail}/>
