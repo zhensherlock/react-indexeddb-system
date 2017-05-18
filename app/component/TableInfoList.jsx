@@ -6,6 +6,7 @@ import {
     ListGroupItem
 } from 'react-bootstrap';
 import CreateTable from './CreateTable';
+import TableContextMenu from './TableContextMenu';
 import DBHelper from '../modules/DBHelper';
 
 class TableInfoList extends React.Component {
@@ -88,17 +89,6 @@ class TableInfoList extends React.Component {
         window.removeEventListener('click' ,this.hideMoreButton);
     }
 
-    renderContextmenu(item) {
-        if (item.showContextmenu) {
-            return (
-                <ListGroup className="contextmenu-container">
-                    <ListGroupItem>Edit</ListGroupItem>
-                    <ListGroupItem>Remove</ListGroupItem>
-                </ListGroup>
-            )
-        }
-    }
-
     render() {
         return (
             <div>
@@ -112,10 +102,7 @@ class TableInfoList extends React.Component {
                                 <NavItem key={index.toString()} onClick={this.chooseTable.bind(this, item)}
                                          onContextMenu={event => this.showMoreButton(item, event)}>
                                     {item.name}
-                                    {
-                                        this.renderContextmenu(item)
-                                    }
-
+                                    <TableContextMenu table={item}></TableContextMenu>
                                 </NavItem>
                             );
                         })
