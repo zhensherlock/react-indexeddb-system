@@ -4,21 +4,23 @@ class DBHelper {
         self.databaseName = databaseName;
     }
 
-    getTableNames() {
+    getTableList() {
         let self = this;
 
         return new Promise((resolve, reject) => {
             indexedDB.open(self.databaseName).onsuccess = (event) => {
                 let objectStoreNames = event.target.result.objectStoreNames
                     , eventKeys = Object.keys(objectStoreNames)
-                    , tableNames = []
+                    , tableList = []
                 ;
 
                 eventKeys.forEach(key => {
-                    tableNames.push(objectStoreNames[key]);
+                    tableList.push({
+                        name: objectStoreNames[key]
+                    });
                 });
 
-                resolve(tableNames);
+                resolve(tableList);
             };
         });
     }

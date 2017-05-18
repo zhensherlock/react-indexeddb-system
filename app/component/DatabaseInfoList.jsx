@@ -96,7 +96,8 @@ class DatabaseInfoList extends React.Component {
                     {
                         this.state.databaseList.map((item, index) => {
                             return (
-                                <NavItem key={index.toString()} href="javascript:;" onClick={this.chooseDatabase.bind(this, item)}>
+                                <NavItem key={index.toString()} href="javascript:;"
+                                         onClick={this.chooseDatabase.bind(this, item)}>
                                     {item}
                                     <Glyphicon glyph="remove" className="pull-right"
                                        onClick={(event) => this.openDeleteModal(event, item, index)}/>

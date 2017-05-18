@@ -12,18 +12,7 @@ export default class AppDatabaseDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tableNames: []
         };
-
-        let dbObject = new DBHelper(props.match.params.databaseName)
-            , self = this
-        ;
-
-        dbObject.getTableNames().then(tableNames => {
-            self.setState({
-                tableNames: tableNames
-            });
-        });
     }
 
     render() {

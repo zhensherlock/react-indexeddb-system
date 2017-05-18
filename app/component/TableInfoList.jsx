@@ -1,7 +1,9 @@
 import React from 'react';
 import {
     Nav,
-    NavItem
+    NavItem,
+    ListGroup,
+    ListGroupItem
 } from 'react-bootstrap';
 import CreateTable from './CreateTable';
 import DBHelper from '../modules/DBHelper';
@@ -12,9 +14,11 @@ class TableInfoList extends React.Component {
         this.state = {
             tableList: [],
             createTableModal: false,
-            currentTable: {}
+            currentTable: {},
+            currentContextmenuTable: {}
         };
         this.onCreateSuccess = this.onCreateSuccess.bind(this);
+        this.hideMoreButton = this.hideMoreButton.bind(this);
     }
 
     componentWillMount() {
@@ -31,16 +35,18 @@ class TableInfoList extends React.Component {
         let dbObject = new DBHelper(props.databaseName)
             , self = this
         ;
-        dbObject.getTableNames().then(tableNames => {
+        dbObject.getTableList().then(tableList => {
             self.setState({
-                tableList: tableNames
+                tableList: tableList
             });
         });
     }
 
     onCreateSuccess(tableName) {
         this.setState((prevState) => {
-            prevState.tableList.push(tableName);
+            prevState.tableList.push({
+                name: tableName
+            });
             return {
                 tableList: prevState.tableList
             }
@@ -57,8 +63,40 @@ class TableInfoList extends React.Component {
         )
     }
 
-    chooseTable(tableName) {
-        this.props.history.push('/database/' + this.props.databaseName + '/' + tableName);
+    chooseTable(item) {
+        this.props.history.push('/database/' + this.props.databaseName + '/' + item.name);
+    }
+
+    showMoreButton(item, event) {
+        let self = this;
+        item.showContextmenu = true;
+        self.setState({
+            currentContextmenuTable: item,
+            tableList: self.state.tableList
+        });
+        event.preventDefault();
+
+        window.addEventListener('click' ,this.hideMoreButton);
+        // event.stopPropagation();
+    }
+
+    hideMoreButton() {
+        this.state.currentContextmenuTable.showContextmenu = false;
+        this.setState({
+            tableList: this.state.tableList
+        });
+        window.removeEventListener('click' ,this.hideMoreButton);
+    }
+
+    renderContextmenu(item) {
+        if (item.showContextmenu) {
+            return (
+                <ListGroup className="contextmenu-container">
+                    <ListGroupItem>Edit</ListGroupItem>
+                    <ListGroupItem>Remove</ListGroupItem>
+                </ListGroup>
+            )
+        }
     }
 
     render() {
@@ -69,10 +107,15 @@ class TableInfoList extends React.Component {
                         this.renderCreateTable()
                     }
                     {
-                        this.state.tableList.map((name ,index) => {
+                        this.state.tableList.map((item ,index) => {
                             return (
-                                <NavItem key={index.toString()} onClick={this.chooseTable.bind(this, name)}>
-                                    {name}
+                                <NavItem key={index.toString()} onClick={this.chooseTable.bind(this, item)}
+                                         onContextMenu={event => this.showMoreButton(item, event)}>
+                                    {item.name}
+                                    {
+                                        this.renderContextmenu(item)
+                                    }
+
                                 </NavItem>
                             );
                         })
