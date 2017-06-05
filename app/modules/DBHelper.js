@@ -38,6 +38,19 @@ class DBHelper {
         });
     }
 
+    deleteTable(tableName) {
+        let self = this
+        ;
+        return new Promise((resolve, reject) => {
+            let request = indexedDB.open(self.databaseName, +(new Date()));
+            request.onupgradeneeded = (event) => {
+                let dbObject = event.target.result;
+                dbObject.deleteObjectStore(tableName);
+                resolve(tableName);
+            };
+        });
+    }
+
     static getDatabaseNames() {
         return new Promise((reslove, reject) => {
             indexedDB.webkitGetDatabaseNames().onsuccess = (event) => {

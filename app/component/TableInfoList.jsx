@@ -20,6 +20,7 @@ class TableInfoList extends React.Component {
         };
         this.onCreateSuccess = this.onCreateSuccess.bind(this);
         this.hideMoreButton = this.hideMoreButton.bind(this);
+        this.onDeleteSuccess = this.onDeleteSuccess.bind(this);
     }
 
     componentWillMount() {
@@ -70,6 +71,9 @@ class TableInfoList extends React.Component {
 
     showMoreButton(item, event) {
         let self = this;
+        if (this.state.currentContextmenuTable.hasOwnProperty('showContextmenu')) {
+            this.state.currentContextmenuTable.showContextmenu = false;
+        }
         item.showContextmenu = true;
         self.setState({
             currentContextmenuTable: item,
@@ -77,7 +81,7 @@ class TableInfoList extends React.Component {
         });
         event.preventDefault();
 
-        window.addEventListener('click' ,this.hideMoreButton);
+        // document.addEventListener('click', this.hideMoreButton);
         // event.stopPropagation();
     }
 
@@ -86,7 +90,18 @@ class TableInfoList extends React.Component {
         this.setState({
             tableList: this.state.tableList
         });
-        window.removeEventListener('click' ,this.hideMoreButton);
+        // document.removeEventListener('click' ,this.hideMoreButton);
+    }
+
+    onDeleteSuccess(tableName) {
+        this.props.history.replace('/database/' + this.props.databaseName);
+        this.setState((prevState) => {
+            let tableIndex = prevState.tableList.indexOf(tableName);
+            prevState.tableList.splice(tableIndex, 1);
+            return {
+                tableList: prevState.tableList
+            }
+        });
     }
 
     render() {
@@ -102,27 +117,13 @@ class TableInfoList extends React.Component {
                                 <NavItem key={index.toString()} onClick={this.chooseTable.bind(this, item)}
                                          onContextMenu={event => this.showMoreButton(item, event)}>
                                     {item.name}
-                                    <TableContextMenu table={item}></TableContextMenu>
+                                    <TableContextMenu table={item} databaseName={this.props.databaseName}
+                                                      onDeleteSuccess={this.onDeleteSuccess}></TableContextMenu>
                                 </NavItem>
                             );
                         })
                     }
                 </Nav>
-                {/*<Modal show={this.state.showDeleteModal} onHide={this.closeDeleteModal}>*/}
-                    {/*<Modal.Header>*/}
-                        {/*<Modal.Title>Delete Database</Modal.Title>*/}
-                    {/*</Modal.Header>*/}
-
-                    {/*<Modal.Body>*/}
-                        {/*Are you sure you want to delete this database:*/}
-                        {/*<Label bsStyle="danger">{this.state.currentDatabase.name}</Label>*/}
-                    {/*</Modal.Body>*/}
-
-                    {/*<Modal.Footer>*/}
-                        {/*<Button onClick={this.closeDeleteModal}>Close</Button>*/}
-                        {/*<Button onClick={this.deleteDatabase} bsStyle="danger">Sure</Button>*/}
-                    {/*</Modal.Footer>*/}
-                {/*</Modal>*/}
             </div>
         );
     }
