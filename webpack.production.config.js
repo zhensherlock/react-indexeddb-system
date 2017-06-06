@@ -82,6 +82,10 @@ var config = {
                 removeComments:true,    //移除HTML中的注释
                 collapseWhitespace:true    //删除空白符与换行符
             }
+        }),
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
         })
     ]
 }
