@@ -106,7 +106,7 @@ class TableInfoList extends React.Component {
 
     render() {
         return (
-            <div>
+            <div onClick={this.hideMoreButton}>
                 <Nav bsStyle="pills">
                     {
                         this.renderCreateTable()
