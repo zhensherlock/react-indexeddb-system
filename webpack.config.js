@@ -27,6 +27,7 @@ var config = {
                 test: /(\.css)$/,
                 loaders: ["style-loader", "css-loader?sourceMap"]
             },
+            { test: /\.(png|gif|jpg|jpeg|bmp)$/i, loader:'url-loader?limit=5000&name=img/[name].[chunkhash:8].[ext]' },
             { test: /\.svg$/, loader: 'url-loader?mimetype=image/svg+xml' },
             { test: /\.woff$/, loader: 'url-loader?mimetype=application/font-woff' },
             { test: /\.woff2$/, loader: 'url-loader?mimetype=application/font-woff' },
