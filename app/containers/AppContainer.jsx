@@ -22,7 +22,7 @@ export default class AppContainer extends React.Component {
                             <DatabaseInfoList create history={history}>
                             </DatabaseInfoList>
                         </Col>
-                        <Col sm={9} md={9} smOffset={3} mdOffset={2} className="main">
+                        <Col sm={9} md={10} smOffset={3} mdOffset={2} className="main">
                             <div>
                                 <Route exact path="/" component={AppDashboard}/>
                                 <Route path="/database/:databaseName" component={AppDatabaseDetail} history={history}/>
