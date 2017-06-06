@@ -25,7 +25,12 @@ var config = {
             {
                 test: /(\.css)$/,
                 loaders: ExtractTextPlugin.extract({
-                    use: 'css-loader'
+                    use:[{
+                        loader: 'css-loader',
+                        options:{
+                            minimize: true //css压缩
+                        }
+                    }]
                 })
             },
             { test: /\.(png|gif|jpg|jpeg|bmp)$/i, loader:'url-loader?limit=5000&name=img/[name].[chunkhash:8].[ext]' },
@@ -68,13 +73,14 @@ var config = {
             minChunks: Infinity
         }),
         new HtmlWebpackPlugin({
+            title: 'Indexeddb Manager',
             filename:'index.html',    //生成的html存放路径，相对于 path
             template:'app/view/index.html',    //html模板路径
             inject:true,    //允许插件修改哪些内容，true/'head'/'body'/false,
             hash:false,    //为静态资源生成hash值
             minify:{    //压缩HTML文件
-                removeComments:false,    //移除HTML中的注释
-                collapseWhitespace:false    //删除空白符与换行符
+                removeComments:true,    //移除HTML中的注释
+                collapseWhitespace:true    //删除空白符与换行符
             }
         })
     ]
